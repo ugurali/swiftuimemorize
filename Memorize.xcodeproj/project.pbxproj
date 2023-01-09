@@ -14,6 +14,7 @@
 		648CE50A291865E800489215 /* MemorizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648CE509291865E800489215 /* MemorizeTests.swift */; };
 		648CE514291865E800489215 /* MemorizeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648CE513291865E800489215 /* MemorizeUITests.swift */; };
 		648CE516291865E800489215 /* MemorizeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648CE515291865E800489215 /* MemorizeUITestsLaunchTests.swift */; };
+		648CE52729186C7E00489215 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648CE52629186C7E00489215 /* CardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		648CE50F291865E800489215 /* MemorizeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MemorizeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		648CE513291865E800489215 /* MemorizeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeUITests.swift; sourceTree = "<group>"; };
 		648CE515291865E800489215 /* MemorizeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		648CE52629186C7E00489215 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				648CE4FA291865E700489215 /* ContentView.swift */,
 				648CE4FC291865E800489215 /* Assets.xcassets */,
 				648CE4FE291865E800489215 /* Preview Content */,
+				648CE52629186C7E00489215 /* CardView.swift */,
 			);
 			path = Memorize;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				648CE4FB291865E700489215 /* ContentView.swift in Sources */,
+				648CE52729186C7E00489215 /* CardView.swift in Sources */,
 				648CE4F9291865E700489215 /* MemorizeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
