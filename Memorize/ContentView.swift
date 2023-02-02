@@ -16,16 +16,18 @@ enum GameTheme {
 struct ContentView: View {
     @State var theme: GameTheme = .Vehicles
     
-    let vehicles = ["✈️", "🛳️", "🚗", "🚌", "🚙", "🚐", "🚚", "🚜", "🚝", "🚁", "🛶", "🛵", "🚡"]
-    let christmas = ["🎄", "🎅", "🎁", "☕️", "❄️", "☃️", "🧦", "🧣", "🥶"]
-    let halloween = ["🕸️", "👻", "🎃", "💀", "🍁", "🍂", "🥮", "😱", "🙀", "👺"]
+    //ObservedObject: Redraw the screen re-draw the screen
+    @ObservedObject var viewModel = EmojiMemoryGame()
     
     var body: some View {
         VStack {
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 10) {
-                    ForEach(dataSource().shuffled(), id: \.self, content: { emoji in
-                        CardView(content: emoji).aspectRatio(2/3, contentMode: .fit)
+                    ForEach(viewModel.cards, content: { card in
+                        CardView(card: card).aspectRatio(2/3, contentMode: .fit)
+                            .onTapGesture {
+                                viewModel.choose(card)
+                            }
                     })
                 }
             }
@@ -74,6 +76,7 @@ struct ContentView: View {
         }
     }
     
+    /*
     func dataSource() -> [String] {
         switch theme {
         case .Vehicles:
@@ -83,7 +86,7 @@ struct ContentView: View {
         case .Halloween:
             return halloween
         }
-    }
+    }*/
 }
 
 struct ContentView_Previews: PreviewProvider {
