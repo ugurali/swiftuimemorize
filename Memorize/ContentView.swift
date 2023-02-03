@@ -6,23 +6,31 @@
 //
 
 import SwiftUI
-
-enum GameTheme {
-    case Vehicles
-    case Christmas
-    case Halloween
-}
+import ScrollViewIfNeeded
 
 struct ContentView: View {
-    @State var theme: GameTheme = .Vehicles
-    
     //ObservedObject: Redraw the screen re-draw the screen
     @ObservedObject var viewModel = EmojiMemoryGame()
     
     var body: some View {
         VStack {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 10) {
+            HStack {
+                VStack(alignment: .leading, content: {
+                    Text("Memorise Game")
+                        .font(.title)
+                    Text(viewModel.selectedTheme.name)
+                        .font(.body)
+                })
+                Spacer()
+                Button(action: {
+                    viewModel.newGame()
+                }, label: {
+                    Text(Image(systemName: "plus"))
+                        .font(.title)
+                })
+            }.padding()
+            ScrollViewIfNeeded {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))], spacing: 10) {
                     ForEach(viewModel.cards, content: { card in
                         CardView(card: card).aspectRatio(2/3, contentMode: .fit)
                             .onTapGesture {
@@ -31,62 +39,30 @@ struct ContentView: View {
                     })
                 }
             }
-            .foregroundColor(.red)
+            .foregroundColor(themeColor)
             .font(.largeTitle)
             .padding()
-            
-            Spacer()
-            
-            HStack{
-                Button(action: {
-                    theme = .Vehicles
-                }, label: {
-                    VStack {
-                        Image("Car")
-                        Text("Vehicles")
-                            .foregroundColor(.red)
-                    }
-                })
-                
-                Spacer()
-                
-                Button(action: {
-                    theme = .Christmas
-                }, label: {
-                    VStack {
-                        Image("ChristmasTree")
-                        Text("Christmas")
-                            .foregroundColor(.green)
-                    }
-                })
-                
-                Spacer()
-                
-                Button(action: {
-                    theme = .Halloween
-                }, label: {
-                    VStack {
-                        Image("HalloweenPumpkin")
-                        Text("Halloween")
-                            .foregroundColor(.orange)
-                    }
-                })
-            }
-            .padding(.horizontal, 60)
+            Text("Score: \(viewModel.score)")
+                .font(.title)
         }
     }
     
-    /*
-    func dataSource() -> [String] {
-        switch theme {
-        case .Vehicles:
-            return vehicles
-        case .Christmas:
-            return christmas
-        case .Halloween:
-            return halloween
+    var themeColor: Color {
+        switch viewModel.selectedTheme.color {
+            case "red":
+                return .red
+            case "green":
+                return .green
+            case "orange":
+                return .orange
+            case "yellow":
+                return .yellow
+            case "blue":
+                return .blue
+            default:
+                return .purple
         }
-    }*/
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

@@ -13,33 +13,71 @@ import SwiftUI
  ObservableObject: So it announces that things are changing. Important for reactive programming
  */
 class EmojiMemoryGame: ObservableObject {
-    static let vehicles = ["✈️", "🛳️", "🚗", "🚌", "🚙", "🚐", "🚚", "🚜", "🚝", "🚁", "🛶", "🛵", "🚡"]
-    static let christmas = ["🎄", "🎅", "🎁", "☕️", "❄️", "☃️", "🧦", "🧣", "🥶"]
-    static let halloween = ["🕸️", "👻", "🎃", "💀", "🍁", "🍂", "🥮", "😱", "🙀", "👺"]
-        
+    static let themes: [Theme<String>] = [
+        Theme<String>(
+            name: "Halloween",
+            color: "orange",
+            values: ["🕸️", "👻", "🎃", "💀", "🍁", "🍂", "🥮", "😱", "🙀", "👺"]
+        ),
+        Theme<String>(
+            name: "Christmas",
+            color: "green",
+            values: ["🎄", "🎅", "🎁", "☕️", "❄️", "☃️", "🧦", "🧣", "🥶"]
+        ),
+        Theme<String>(
+            name: "Vehicles",
+            color: "red",
+            values: ["✈️", "🛳️", "🚗", "🚌", "🚙", "🚐", "🚚", "🚜", "🚝", "🚁", "🛶", "🛵"]
+        ),
+        Theme<String>(
+            name: "Animals",
+            color: "yellow",
+            values: ["🐶", "🐱", "🐷", "🐮", "🐸", "🐤", "🐝", "🐴", "🐳", "🐑", "🐓", "🐊"]
+        ),
+        Theme<String>(
+            name: "Emoticons",
+            color: "blue",
+            values: ["😆", "🥰", "😕", "😡", "🤯", "🫠", "🤢", "🤠", "😵", "🫡", "😎", "🥸"]
+        )
+    ]
+    
     // so other classes can read it but not change it
     // private(set) var model: MemoryGame<String>
     
     // Published: Announces the changes in the property to the observers
-    @Published private var model: MemoryGame<String> = createMemoryGame()
+    @Published private var model: MemoryGame<String>
+    private(set) var selectedTheme: Theme<String>
+
+    init() {
+        selectedTheme = EmojiMemoryGame.themes.randomElement()!
+        model = EmojiMemoryGame.createMemoryGame(theme: selectedTheme)
+    }
     
-    static func createMemoryGame() -> MemoryGame<String> {
+    static func createMemoryGame(theme: Theme<String>) -> MemoryGame<String> {
         return MemoryGame<String>(
-            numberOfPairsOfCards: 6,
-            createCardContent: createCardContent
+            numberOfPairsOfCards: theme.values.count,
+            createCardContent: { index in
+                return theme.values[index]
+            }
         )
     }
     
-    static func createCardContent(index: Int) -> String {
-        return vehicles[index]
-    }
     
     // if there are multiple fields and you dont want all of them to be readable
     var cards: Array<MemoryGame<String>.Card> {
         return model.cards
     }
     
+    var score: Int {
+        return model.score
+    }
+    
     // MARK: - Intent(s)
+    
+    func newGame() {
+        selectedTheme = EmojiMemoryGame.themes.randomElement()!
+        model = EmojiMemoryGame.createMemoryGame(theme: selectedTheme)
+    }
     
     func choose(_ card: MemoryGame<String>.Card) {
         model.choose(card)

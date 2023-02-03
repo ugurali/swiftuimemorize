@@ -11,7 +11,10 @@ import Foundation
 // where: you can how a generic type should look like
 struct MemoryGame<CardContent> where CardContent: Equatable {
     private(set) var cards: Array<Card>
+    private(set) var score: Int
+    
     private var indexOfFacedUpCard: Int?
+    private var seenCardIndexes: Set<Int>
     
     init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent) {
         cards = Array<Card>()
@@ -20,6 +23,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             cards.append(Card(id: i*2 + 1, content: createCardContent(i)))
         }
         cards.shuffle()
+        score = 0
+        seenCardIndexes = []
     }
     
     // arguments of functions are "let"s
@@ -33,6 +38,17 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 if cards[potentialMatchIndex].content == cards[choosenIndex].content {
                     cards[potentialMatchIndex].isMatched = true
                     cards[choosenIndex].isMatched = true
+                    score += 2
+                } else {
+                    if seenCardIndexes.contains(choosenIndex) {
+                        score -= 1
+                    }
+                    if seenCardIndexes.contains(potentialMatchIndex) {
+                        score -= 1
+                    }
+                    
+                    seenCardIndexes.insert(choosenIndex)
+                    seenCardIndexes.insert(potentialMatchIndex)
                 }
                 indexOfFacedUpCard = nil
             } else {
